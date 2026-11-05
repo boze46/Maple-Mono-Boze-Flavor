@@ -1,0 +1,74 @@
+name: Build MapleMono-BozeFlavor
+
+on:
+  workflow_dispatch:
+    inputs:
+      upstream_ref:
+        description: "subframe7536/maple-font 的 ref（分支 / tag / commit SHA）"
+        required: false
+        default: "v7"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 本仓库（配置）
+        uses: actions/checkout@v4
+
+      - name: Checkout 上游 maple-font
+        uses: actions/checkout@v4
+        with:
+          repository: subframe7536/maple-font
+          ref: ${{ inputs.upstream_ref }}
+          path: maple
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: maple/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r maple/requirements.txt
+
+      - name: 应用 BozeFlavor 配置
+        run: cp config.json maple/config.json
+
+      - name: Build fonts
+        working-directory: maple
+        run: python build.py --archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: MapleMono-BozeFlavor
+          path: maple/fonts/archive/*
+          if-no-files-found: warn
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test -d maple/fonts/archive || { echo "::error::fonts/archive 不存在，请检查构建步骤日志"; exit 1; }
+          TAG="v$(date +%Y.%m.%d-%H%M%S)"
+          {
+            echo "### 构建参数"
+            echo ""
+            echo "- upstream: subframe7536/maple-font@${{ inputs.upstream_ref }}"
+            echo "- 命令: \`python build.py --archive\`（变体与特征均由 config.json 驱动）"
+            echo ""
+            echo "### 最终合并配置"
+            echo ""
+            echo '```json'
+            (cd maple && python build.py --dry | sed 's/^font_config: //')
+            echo '```'
+          } > NOTES.md
+          gh release create "$TAG" maple/fonts/archive/* \
+            --latest \
+            --title "MapleMono-BozeFlavor $TAG" \
+            --notes-file NOTES.md
