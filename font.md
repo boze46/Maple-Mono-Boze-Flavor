@@ -2,7 +2,6 @@ boze flavor
 
 ```shell
 --cn --width narrow --feat cv07,cv10,cv35,cv40,cv43,cv61,cv97,cv98,ss03
-
 ```
 
 ```json
@@ -28,9 +27,9 @@ boze flavor
   "line_height": 1,
   "width": "narrow",
   "feature_freeze": {
-    "cv01": "ignore",
-    "cv02": "ignore",
-    "cv03": "ignore",
+    "cv01": "enable",
+    "cv02": "enable",
+    "cv03": "enable",
     "cv04": "ignore",
     "cv05": "ignore",
     "cv06": "ignore",
@@ -41,10 +40,10 @@ boze flavor
     "cv11": "ignore",
     "cv31": "ignore",
     "cv32": "ignore",
-    "cv33": "ignore",
-    "cv34": "ignore",
+    "cv33": "enable",
+    "cv34": "enable",
     "cv35": "enable",
-    "cv36": "ignore",
+    "cv36": "enable",
     "cv37": "ignore",
     "cv38": "ignore",
     "cv39": "ignore",
@@ -54,23 +53,23 @@ boze flavor
     "cv43": "enable",
     "cv44": "ignore",
     "cv61": "enable",
-    "cv62": "ignore",
+    "cv62": "enable",
     "cv63": "ignore",
     "cv64": "ignore",
     "cv65": "ignore",
-    "cv66": "ignore",
+    "cv66": "enable",
     "cv96": "ignore",
-    "cv97": "enable",
-    "cv98": "enable",
+    "cv97": "ignore",
+    "cv98": "ignore",
     "cv99": "ignore",
     "ss01": "ignore",
     "ss02": "ignore",
     "ss03": "enable",
-    "ss04": "ignore",
-    "ss05": "ignore",
-    "ss06": "ignore",
-    "ss07": "ignore",
-    "ss08": "ignore",
+    "ss04": "enable",
+    "ss05": "enable",
+    "ss06": "enable",
+    "ss07": "enable",
+    "ss08": "enable",
     "ss09": "ignore",
     "ss10": "ignore",
     "ss11": "ignore",
@@ -79,7 +78,7 @@ boze flavor
   "nerd_font": {
     "enable": true,
     "version": "3.4.0",
-    "mono": false,
+    "mono": true,
     "propo": false,
     "use_font_patcher": false,
     "glyphs": [
@@ -92,8 +91,8 @@ boze flavor
     "with_nerd_font": true,
     "fix_meta_table": true,
     "clean_cache": false,
-    "narrow": false,
-    "use_hinted": false,
+    "narrow": true,
+    "use_hinted": true,
     "use_static_base_font": true,
     "scale_factor": 1.0
   }

@@ -14,6 +14,11 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # narrow: 550/1100；slim: 500/1000（与 Sarasa Term SC 一致的 2:1 字距）
+        width: [narrow, slim]
     steps:
       - name: Checkout 本仓库（配置）
         uses: actions/checkout@v4
@@ -35,40 +40,106 @@ jobs:
       - name: Install dependencies
         run: pip install -r maple/requirements.txt
 
-      - name: 应用 BozeFlavor 配置
-        run: cp config.json maple/config.json
+      - name: 应用 BozeFlavor 配置（hinted 基准）
+        env:
+          WIDTH: ${{ matrix.width }}
+        run: |
+          cp config.json maple/config.json
+          python - <<'EOF'
+          import json, os
+          p = "maple/config.json"
+          c = json.load(open(p))
+          c["width"] = os.environ["WIDTH"]
+          json.dump(c, open(p, "w"), indent=2, ensure_ascii=False)
+          EOF
 
-      - name: Build fonts
+      - name: Build hinted（1080p 预设，全量）
         working-directory: maple
         run: python build.py --archive
 
-      - name: Upload artifact
+      - name: 导出 hinted 合并配置
+        working-directory: maple
+        run: |
+          python build.py --dry | sed 's/^font_config: //' > hinted-config.json
+
+      - name: 切换 unhinted 预设（2K）
+        run: |
+          python - <<'EOF'
+          import json
+          p = "maple/config.json"
+          c = json.load(open(p))
+          c["use_hinted"] = False
+          c["cn"]["use_hinted"] = False
+          json.dump(c, open(p, "w"), indent=2, ensure_ascii=False)
+          EOF
+
+      - name: Build unhinted（复用基字缓存，仅重打 NF / NF-CN）
+        working-directory: maple
+        run: python build.py --archive --cache
+
+      - name: 导出 unhinted 合并配置
+        working-directory: maple
+        run: |
+          python build.py --dry | sed 's/^font_config: //' > unhinted-config.json
+
+      - name: Upload 字体产物
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: MapleMono-BozeFlavor
+          name: fonts-${{ matrix.width }}
           path: maple/fonts/archive/*
           if-no-files-found: warn
+
+      - name: Upload 合并配置
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: config-${{ matrix.width }}
+          path: |
+            maple/hinted-config.json
+            maple/unhinted-config.json
+          if-no-files-found: warn
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 本仓库
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
 
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          test -d maple/fonts/archive || { echo "::error::fonts/archive 不存在，请检查构建步骤日志"; exit 1; }
+          files=$(find dist/fonts-narrow dist/fonts-slim -type f 2>/dev/null)
+          test -n "$files" || { echo "::error::没有找到任何字体产物，请检查 build job 日志"; exit 1; }
           TAG="v$(date +%Y.%m.%d-%H%M%S)"
           {
             echo "### 构建参数"
             echo ""
             echo "- upstream: subframe7536/maple-font@${{ inputs.upstream_ref }}"
-            echo "- 命令: \`python build.py --archive\`（变体与特征均由 config.json 驱动）"
+            echo "- 四套预设：width（narrow/slim）× hint（hinted=1080p / unhinted=2K）"
+            echo "- nerd_font.mono=true（单宽图标），未使用 --normal"
+            echo "- NF / NF-CN 的 unhinted 变体 zip 带 -unhinted 后缀；TTF 与 TTF-AutoHint 即最小版的 unhinted / hinted"
             echo ""
             echo "### 最终合并配置"
-            echo ""
-            echo '```json'
-            (cd maple && python build.py --dry | sed 's/^font_config: //')
-            echo '```'
+            for w in narrow slim; do
+              for h in hinted unhinted; do
+                echo ""
+                echo "#### $w / $h"
+                echo ""
+                echo '```json'
+                cat "dist/config-$w/$h-config.json" 2>/dev/null || echo '"(缺失，见 build 日志)"'
+                echo '```'
+              done
+            done
           } > NOTES.md
-          gh release create "$TAG" maple/fonts/archive/* \
+          echo "$files" | xargs gh release create "$TAG" \
             --latest \
             --title "MapleMono-BozeFlavor $TAG" \
             --notes-file NOTES.md
