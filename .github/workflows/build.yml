@@ -119,25 +119,60 @@ jobs:
           files=$(find dist/fonts-narrow dist/fonts-slim -type f 2>/dev/null)
           test -n "$files" || { echo "::error::没有找到任何字体产物，请检查 build job 日志"; exit 1; }
           TAG="v$(date +%Y.%m.%d-%H%M%S)"
+          BASE="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}"
+
+          dl() {
+            name="$1"; label="${2:-下载}"
+            if find dist/fonts-narrow dist/fonts-slim -name "$name" -print -quit 2>/dev/null | grep -q .; then
+              echo "[📦 ${label}](${BASE}/${name})"
+            else
+              echo "—"
+            fi
+          }
+
+          table() {
+            p="$1"; desc="$2"
+            echo "#### ${p}（${desc}）"
+            echo ""
+            echo "| 格式 | hinted（≤1080p） | unhinted（≥2K） |"
+            echo "| :--- | :---: | :---: |"
+            echo "| Variable | — | $(dl "MapleMonoBozeFlavor${p}-Variable.zip") |"
+            echo "| TTF | $(dl "MapleMonoBozeFlavor${p}-TTF-AutoHint.zip" "TTF-AutoHint") | $(dl "MapleMonoBozeFlavor${p}-TTF.zip" "TTF") |"
+            echo "| OTF | — | $(dl "MapleMonoBozeFlavor${p}-OTF.zip") |"
+            echo "| WOFF2 | — | $(dl "MapleMonoBozeFlavor${p}-Woff2.zip") |"
+            echo "| NF | $(dl "MapleMonoBozeFlavor${p}-NF.zip") | $(dl "MapleMonoBozeFlavor${p}-NF-unhinted.zip") |"
+            echo "| NF-CN | $(dl "MapleMonoBozeFlavor${p}-NF-CN.zip") | $(dl "MapleMonoBozeFlavor${p}-NF-CN-unhinted.zip") |"
+            echo ""
+          }
+
           {
+            echo "### 下载"
+            echo ""
+            echo "≤1080p 用 hinted 列，≥2K 用 unhinted 列；Variable / OTF / WOFF2 本身不含 hint，任选。NF / NF-CN 图标全部单宽（mono），hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。"
+            echo ""
+            table NR "narrow：拉丁 550 / 中文 1100"
+            table SL "slim：拉丁 500 / 中文 1000，与 Sarasa Term SC 相同的 2:1 字距"
+            echo "---"
+            echo ""
             echo "### 构建参数"
             echo ""
             echo "- upstream: subframe7536/maple-font@${{ inputs.upstream_ref }}"
-            echo "- 四套预设：width（narrow/slim）× hint（hinted=1080p / unhinted=2K）"
-            echo "- nerd_font.mono=true（单宽图标），未使用 --normal"
-            echo "- NF / NF-CN 的 unhinted 变体 zip 带 -unhinted 后缀；TTF 与 TTF-AutoHint 即最小版的 unhinted / hinted"
+            echo "- 四套预设：width（narrow/slim）× hint（hinted=1080p / unhinted=2K），nerd_font.mono=true，未使用 --normal"
             echo ""
-            echo "### 最终合并配置"
+            echo "<details>"
+            echo "<summary>四套预设的合并配置</summary>"
             for w in narrow slim; do
               for h in hinted unhinted; do
                 echo ""
-                echo "#### $w / $h"
+                echo "##### $w / $h"
                 echo ""
                 echo '```json'
                 cat "dist/config-$w/$h-config.json" 2>/dev/null || echo '"(缺失，见 build 日志)"'
                 echo '```'
               done
             done
+            echo ""
+            echo "</details>"
           } > NOTES.md
           echo "$files" | xargs gh release create "$TAG" \
             --latest \

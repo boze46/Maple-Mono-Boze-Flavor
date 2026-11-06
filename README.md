@@ -1,63 +1,162 @@
-# MapleMono-BozeFavor
+# Maple Mono Boze Flavor
 
-基于 [subframe7536/maple-font](https://github.com/subframe7536/maple-font) v7 稳定线的个人自定义构建：**Boze Flavor**。本仓库只放配置和 CI workflow，不 fork 上游，不提交字体文件；构建在 GitHub Actions 上完成，产物发布到本仓库的 Releases。
+[Maple Mono](https://github.com/subframe7536/maple-font) v7 的个人定制构建。一套配置产出四套字体：宽度（NR / SL）× 提示（hinted / unhinted）。仓库只存放配置与 CI workflow，字体在 GitHub Actions 构建并发布到 [Releases](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases)。
 
-配置来自官方 playground（<https://font.subf.dev/en/playground/>）的导出，原始导出记录在 [font.md](./font.md)，构建实际读取的是 [config.json](./config.json)。
+## 产出
 
-## 字体命名对照
+下载表格与 Release notes 中的同款，此处使用 `latest/download` 固定直链——zip 文件名在各次 Release 之间保持不变（nix 用 `fetchurl` 拉取，升级 = 改一次 hash）。
 
-构建脚本会把 `family_name` 按空格分词并逐词 `capitalize()`，所以这里写的是 `Boze Flavor`（两个词）而不是 `BozeFlavor`——这样 compact 名才能保留驼峰。宽度会自动追加后缀（`narrow` → `NR`，`slim` → `SL`）；`nerd_font.mono: true` 使 NF 族名带 `NFMono`（图标全部单宽，与 Sarasa Term SC Nerd 行为一致）。最终产物：
+≤1080p 用 hinted 列，≥2K 用 unhinted 列；Variable / OTF / WOFF2 本身不含 hint，任选。NF / NF-CN 的 Nerd Font 图标全部单宽（mono）。hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。
 
-| 位置 | 名字 |
-|---|---|
-| 目录 / 仓库名 | `MapleMono-BozeFavor`（建目录时的拼写，与字体名差一个 l，不影响构建） |
-| 字体族名（fontconfig / 应用里显示） | `Maple Mono Boze Flavor NR NFMono` / `… NR NFMono CN`，以及对应的 `SL` 版本 |
-| 文件名 / zip / PostScript 前缀 | `MapleMonoBozeFlavor{NR,SL}-NFMono…`（zip 名不带 Mono，如 `MapleMonoBozeFlavorNR-NF-CN.zip`） |
+### NR（narrow：拉丁 550 / 中文 1100）
 
-hinted 与 unhinted 产物的**族名完全相同**，只靠 zip 名里的 `-unhinted` 后缀区分——同一台机器不要同时安装同宽度的两套。
+| 格式 | hinted（≤1080p） | unhinted（≥2K） |
+| :--- | :---: | :---: |
+| Variable | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Variable.zip) |
+| TTF | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF-AutoHint.zip) | [📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF.zip) |
+| OTF | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-OTF.zip) |
+| WOFF2 | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Woff2.zip) |
+| NF | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-unhinted.zip) |
+| NF-CN | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN-unhinted.zip) |
 
-## 构建
+### SL（slim：拉丁 500 / 中文 1000，与 Sarasa Term SC 相同的 2:1 字距）
 
-GitHub Actions → **Build MapleMono-BozeFlavor** → Run workflow：
+| 格式 | hinted（≤1080p） | unhinted（≥2K） |
+| :--- | :---: | :---: |
+| Variable | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Variable.zip) |
+| TTF | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF-AutoHint.zip) | [📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF.zip) |
+| OTF | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-OTF.zip) |
+| WOFF2 | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Woff2.zip) |
+| NF | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-unhinted.zip) |
+| NF-CN | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN-unhinted.zip) |
 
-- `upstream_ref`：上游 ref，默认 `v7` 分支（当前 v7.9，commit `5ee93150fbafe59dc805c2f64ad879fd14c3ce78`）。要严格复现就填 tag（如 `v7.9`）或上面的 SHA；要跟进 v7.x 更新就保持 `v7`。
-- 一次触发产出**四套预设**（width × hint）：matrix 并行构建 `narrow`（550/1100）与 `slim`（500/1000，与 Sarasa Term SC 完全一致的 2:1 字距）两个宽度，每个宽度先全量构建 hinted 版（`python build.py --archive`，1080p 用），再把 `use_hinted` / `cn.use_hinted` 切为 `false`，用 `python build.py --archive --cache` 复用基字、只重打 NF / NF-CN（zip 带 `-unhinted` 后缀，2K 用）。最小格式（TTF / TTF-AutoHint / OTF / WOFF2 / Variable）与 hint 预设无关，每个宽度各出一份（TTF 即 unhinted、TTF-AutoHint 即 hinted）。
-- 特性冻结、宽度基准、NF mono 全部由 `config.json` 驱动，不传变体 CLI flag，也不用 `--normal`。
-- `use_font_patcher: false`，走预编译 NF glyph 合并，**不需要 FontForge**。
-- 产物在 `fonts/archive`，每个 zip 配套 `.sha256`；同时上传为 workflow artifact，并发布成 Release（tag 为时间戳，标记 `--latest`），Release notes 里附四套预设各自合并后的完整配置。
+## 基础信息
 
-## 下载
+- 字体族名：`Maple Mono Boze Flavor NR NFMono` / `Maple Mono Boze Flavor NR NFMono CN`（SL 同理替换后缀）
+- 上游：subframe7536/maple-font v7 线，当前 v7.9（commit `5ee93150fbafe59dc805c2f64ad879fd14c3ce78`），workflow 可指定 ref
+- 连字开启；未使用 `--normal` 预设
+- 原始 playground 导出记录见 [font.md](./font.md)，构建实际读取 [config.json](./config.json)
 
-```bash
-# 最新一次构建的全部 zip
-gh release download -R boze46/MapleMono-BozeFavor --pattern '*.zip'
+## Flavor 内容
 
-# 固定链接（文件名以 Release 里的实际名为准，形如 MapleMonoBozeFlavorNR-NF-CN.zip /
-# MapleMonoBozeFlavorSL-NF-CN-unhinted.zip）
-curl -LO https://github.com/boze46/MapleMono-BozeFavor/releases/latest/download/<文件名>
+相对上游默认配置的关键改动：
+
+- `nerd_font.mono: true` — Nerd Font 图标全部单宽，终端图标对齐（与 Sarasa Term SC Nerd 行为一致）
+- `cn.narrow: false` — 保持中英 2:1 与等宽字体标志（开启会破坏 2:1 与等宽识别，slim 下还是上游 v7.9 的 no-op 分支）
+- `width` 由 CI 按 matrix 注入 `narrow`（550/1100）或 `slim`（500/1000，Sarasa 同款字距）
+- 冻结启用（`feature_freeze` 置 `enable`）：`cv01 cv02 cv03 cv07 cv10 cv33 cv34 cv35 cv36 cv40 cv43 cv61 cv62 cv66 ss03 ss04 ss05 ss06 ss07 ss08`
+
+<details>
+<summary>完整 config.json</summary>
+
+```json
+{
+  "$schema": "./source/schema.json",
+  "family_name": "Maple Mono Boze Flavor",
+  "use_hinted": true,
+  "pool_size": 4,
+  "enable_ligature": true,
+  "ttfautohint_param": {},
+  "github_mirror": "github.com",
+  "infinite_arrow": null,
+  "remove_tag_liga": false,
+  "weight_mapping": {
+    "thin": 100,
+    "extralight": 200,
+    "light": 300,
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700,
+    "extrabold": 800
+  },
+  "line_height": 1,
+  "width": "narrow",
+  "feature_freeze": {
+    "cv01": "enable",
+    "cv02": "enable",
+    "cv03": "enable",
+    "cv04": "ignore",
+    "cv05": "ignore",
+    "cv06": "ignore",
+    "cv07": "enable",
+    "cv08": "ignore",
+    "cv09": "ignore",
+    "cv10": "enable",
+    "cv11": "ignore",
+    "cv31": "ignore",
+    "cv32": "ignore",
+    "cv33": "enable",
+    "cv34": "enable",
+    "cv35": "enable",
+    "cv36": "enable",
+    "cv37": "ignore",
+    "cv38": "ignore",
+    "cv39": "ignore",
+    "cv40": "enable",
+    "cv41": "ignore",
+    "cv42": "ignore",
+    "cv43": "enable",
+    "cv44": "ignore",
+    "cv61": "enable",
+    "cv62": "enable",
+    "cv63": "ignore",
+    "cv64": "ignore",
+    "cv65": "ignore",
+    "cv66": "enable",
+    "cv96": "ignore",
+    "cv97": "ignore",
+    "cv98": "ignore",
+    "cv99": "ignore",
+    "ss01": "ignore",
+    "ss02": "ignore",
+    "ss03": "enable",
+    "ss04": "enable",
+    "ss05": "enable",
+    "ss06": "enable",
+    "ss07": "enable",
+    "ss08": "enable",
+    "ss09": "ignore",
+    "ss10": "ignore",
+    "ss11": "ignore",
+    "zero": "ignore"
+  },
+  "nerd_font": {
+    "enable": true,
+    "version": "3.4.0",
+    "mono": true,
+    "propo": false,
+    "use_font_patcher": false,
+    "glyphs": [
+      "--complete"
+    ],
+    "extra_args": []
+  },
+  "cn": {
+    "enable": true,
+    "with_nerd_font": true,
+    "fix_meta_table": true,
+    "clean_cache": false,
+    "narrow": false,
+    "use_hinted": true,
+    "use_static_base_font": true,
+    "scale_factor": 1.0
+  }
+}
 ```
 
-接 nix flake 时用 `fetchurl` 拉 latest 固定链接即可，升级字体 = 改一次 hash。
+</details>
 
-## 改配置
+## 项目原理
 
-1. 回 playground 调整 → 导出 JSON；
-2. 更新本仓库 `config.json`（`family_name` 保持 `Maple Mono Boze Flavor` 不动，其余按导出覆盖；两处固定不跟导出：`cn.narrow` 保持 `false`——开它会破坏中英 2:1 与等宽标志（#249），slim 下更是 v7.9 的 no-op 分支；`nerd_font.mono` 保持 `true`。注意 playground 若切到 v8 线，导出格式会变成 `cjk` 结构，与 v7 不兼容）；
-3. 提交后在 Actions 重跑 workflow。
+- 仓库不含字体源码与产物，只有 `config.json` 和 [.github/workflows/build.yml](./.github/workflows/build.yml)。
+- Actions 手动触发后：checkout 上游 → 用本仓库 `config.json` 覆盖上游的 → matrix 并行构建 `narrow` / `slim` 两个宽度；每个宽度先全量构建 hinted 版（1080p），再把 `use_hinted` / `cn.use_hinted` 切为 `false`，用 `--archive --cache` 复用基字、只重打 NF / NF-CN 的 `-unhinted` 变体（2K）。最小格式（Variable / TTF / TTF-AutoHint / OTF / WOFF2）与 hint 预设无关，每个宽度各出一份。
+- 改配置：编辑 `config.json`（playground 导出后需同步；注意 v8 线导出为 `cjk` 结构，与 v7 不兼容）→ 提交 → 重跑 workflow；上游升级同理，改 `upstream_ref`。
+- 本地构建：clone 上游 v7 分支，覆盖 `config.json`，`pip install -r requirements.txt && python build.py --archive`。
 
-上游升级同理：改 `upstream_ref`（workflow 默认值或手动输入）。
+## 上游鸣谢 / License
 
-## 本地构建（可选）
-
-```bash
-git clone https://github.com/subframe7536/maple-font -b v7
-cd maple-font && cp /path/to/config.json .
-pip install -r requirements.txt
-python build.py --archive
-```
-
-网络受限环境改 `config.json` 的 `github_mirror`，或设环境变量 `GITHUB=<镜像域名>`。
-
-## License
-
-字体基于上游 [OFL-1.1](https://github.com/subframe7536/maple-font/blob/v7/OFL.txt)，派生版同样遵循 OFL 发布。
+- [Maple Mono](https://github.com/subframe7536/maple-font)（@subframe7536）— 字体本体与构建脚本
+- [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) — 图标字形
+- [Source Han Sans](https://github.com/adobe-fonts/source-han-sans) 系 — CN 版中文字形（经 Maple Mono CN 基字）
+- 派生字体与上游同样以 OFL-1.1 发布，见 [OFL.txt](https://github.com/subframe7536/maple-font/blob/v7/OFL.txt)
