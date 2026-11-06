@@ -27,7 +27,7 @@
 - `nerd_font.mono: true` — Nerd Font 图标全部单宽，终端图标对齐（与 Sarasa Term SC Nerd 行为一致）
 - `cn.narrow: false` — 保持中英 2:1 与等宽字体标志（开启会破坏 2:1 与等宽识别，slim 下还是上游 v7.9 的 no-op 分支）
 - `width` 由 CI 按 matrix 注入 `narrow`（550/1100）或 `slim`（500/1000，Sarasa 同款字距）
-- 冻结启用（`feature_freeze` 置 `enable`）：`cv01 cv02 cv03 cv07 cv10 cv33 cv34 cv35 cv36 cv40 cv43 cv61 cv62 cv66 ss03 ss04 ss05 ss06 ss07 ss08`
+- 冻结启用（`feature_freeze` 置 `enable`）：`cv01 cv02 cv03 cv07 cv10 cv33 cv34 cv35 cv36 cv40 cv43 cv61 cv66 ss03 ss04 ss05 ss06 ss07 ss08`
 
 <details>
 <summary>完整 config.json</summary>
