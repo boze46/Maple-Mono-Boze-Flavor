@@ -6,29 +6,12 @@
 
 下载表格与 Release notes 中的同款，此处使用 `latest/download` 固定直链——zip 文件名在各次 Release 之间保持不变（nix 用 `fetchurl` 拉取，升级 = 改一次 hash）。
 
-≤1080p 用 hinted 列，≥2K 用 unhinted 列；Variable / OTF / WOFF2 本身不含 hint，任选。NF / NF-CN 的 Nerd Font 图标全部单宽（mono）。hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。
+主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；Variable / OTF / WOFF2 不含 hint，仅一个链接。NF / NF-CN 的 Nerd Font 图标全部单宽（mono）。hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。
 
-### NR（narrow：拉丁 550 / 中文 1100）
-
-| 格式 | hinted（≤1080p） | unhinted（≥2K） |
-| :--- | :---: | :---: |
-| Variable | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Variable.zip) |
-| TTF | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF-AutoHint.zip) | [📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF.zip) |
-| OTF | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-OTF.zip) |
-| WOFF2 | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Woff2.zip) |
-| NF | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-unhinted.zip) |
-| NF-CN | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN-unhinted.zip) |
-
-### SL（slim：拉丁 500 / 中文 1000，与 Sarasa Term SC 相同的 2:1 字距）
-
-| 格式 | hinted（≤1080p） | unhinted（≥2K） |
-| :--- | :---: | :---: |
-| Variable | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Variable.zip) |
-| TTF | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF-AutoHint.zip) | [📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF.zip) |
-| OTF | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-OTF.zip) |
-| WOFF2 | — | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Woff2.zip) |
-| NF | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-unhinted.zip) |
-| NF-CN | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN-unhinted.zip) |
+| 宽度 | Variable | TTF | OTF | WOFF2 | NF | NF-CN |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| NR（550/1100） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Variable.zip) | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF-AutoHint.zip) ([📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-TTF.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-OTF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-Woff2.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-unhinted.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorNR-NF-CN-unhinted.zip)) |
+| SL（500/1000） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Variable.zip) | [📦 TTF-AutoHint](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF-AutoHint.zip) ([📦 TTF](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-TTF.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-OTF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-Woff2.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-unhinted.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleMonoBozeFlavorSL-NF-CN-unhinted.zip)) |
 
 ## 基础信息
 

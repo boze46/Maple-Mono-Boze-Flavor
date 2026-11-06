@@ -130,28 +130,32 @@ jobs:
             fi
           }
 
-          table() {
-            p="$1"; desc="$2"
-            echo "#### ${p}（${desc}）"
-            echo ""
-            echo "| 格式 | hinted（≤1080p） | unhinted（≥2K） |"
-            echo "| :--- | :---: | :---: |"
-            echo "| Variable | — | $(dl "MapleMonoBozeFlavor${p}-Variable.zip") |"
-            echo "| TTF | $(dl "MapleMonoBozeFlavor${p}-TTF-AutoHint.zip" "TTF-AutoHint") | $(dl "MapleMonoBozeFlavor${p}-TTF.zip" "TTF") |"
-            echo "| OTF | — | $(dl "MapleMonoBozeFlavor${p}-OTF.zip") |"
-            echo "| WOFF2 | — | $(dl "MapleMonoBozeFlavor${p}-Woff2.zip") |"
-            echo "| NF | $(dl "MapleMonoBozeFlavor${p}-NF.zip") | $(dl "MapleMonoBozeFlavor${p}-NF-unhinted.zip") |"
-            echo "| NF-CN | $(dl "MapleMonoBozeFlavor${p}-NF-CN.zip") | $(dl "MapleMonoBozeFlavor${p}-NF-CN-unhinted.zip") |"
-            echo ""
+          dl2() {
+            mlink="$(dl "$1" "$2")"; alink="$(dl "$3" "$4")"
+            if [ "$mlink" = "—" ]; then
+              echo "$alink"
+            elif [ "$alink" = "—" ]; then
+              echo "$mlink"
+            else
+              echo "${mlink} (${alink})"
+            fi
+          }
+
+          row() {
+            p="$1"; label="$2"
+            echo "| ${label} | $(dl "MapleMonoBozeFlavor${p}-Variable.zip") | $(dl2 "MapleMonoBozeFlavor${p}-TTF-AutoHint.zip" "TTF-AutoHint" "MapleMonoBozeFlavor${p}-TTF.zip" "TTF") | $(dl "MapleMonoBozeFlavor${p}-OTF.zip") | $(dl "MapleMonoBozeFlavor${p}-Woff2.zip") | $(dl2 "MapleMonoBozeFlavor${p}-NF.zip" "下载" "MapleMonoBozeFlavor${p}-NF-unhinted.zip" "unhinted") | $(dl2 "MapleMonoBozeFlavor${p}-NF-CN.zip" "下载" "MapleMonoBozeFlavor${p}-NF-CN-unhinted.zip" "unhinted") |"
           }
 
           {
             echo "### 下载"
             echo ""
-            echo "≤1080p 用 hinted 列，≥2K 用 unhinted 列；Variable / OTF / WOFF2 本身不含 hint，任选。NF / NF-CN 图标全部单宽（mono），hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。"
+            echo "主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；Variable / OTF / WOFF2 不含 hint，仅一个链接。NR = 拉丁 550 / 中文 1100，SL = 拉丁 500 / 中文 1000（Sarasa Term SC 同款 2:1 字距）。NF / NF-CN 图标全部单宽（mono），hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。"
             echo ""
-            table NR "narrow：拉丁 550 / 中文 1100"
-            table SL "slim：拉丁 500 / 中文 1000，与 Sarasa Term SC 相同的 2:1 字距"
+            echo "| 宽度 | Variable | TTF | OTF | WOFF2 | NF | NF-CN |"
+            echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |"
+            row NR "NR（550/1100）"
+            row SL "SL（500/1000）"
+            echo ""
             echo "---"
             echo ""
             echo "### 构建参数"
