@@ -53,7 +53,7 @@ boze flavor
     "cv43": "enable",
     "cv44": "ignore",
     "cv61": "enable",
-    "cv62": "enable",
+    "cv62": "ignore",
     "cv63": "ignore",
     "cv64": "ignore",
     "cv65": "ignore",
