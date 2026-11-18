@@ -86,6 +86,58 @@ REPLACEMENTS = [
         'postscript_name = f"{font_config.family_name_compact}-{build_option.cn_suffix_compact}-{style_compact_cn}"',
         'postscript_name = f"{font_config.family_name_compact}-{style_compact_cn}"',
     ),
+    # ⑤ 只发布 NF-CN 基底:OTF / WOFF2 改从 NF-CN 静态 TTF 转换,
+    #    归档时跳过纯拉丁 TTF / NF / Variable / CN 目录。
+    (
+        """    # Build variants
+    build_nerd_fonts(font_config, build_option, target_styles)
+    build_chinese_fonts(font_config, build_option, target_styles)
+""",
+        """    # Build variants
+    build_nerd_fonts(font_config, build_option, target_styles)
+    build_chinese_fonts(font_config, build_option, target_styles)
+    if not should_use_cache:
+        convert_cn_formats(build_option)
+""",
+    ),
+    (
+        """# Now, refactor the main function to use these
+def main(""",
+        '''def convert_cn_formats(build_option: BuildOption):
+    """BozeFlavor: OTF / WOFF2 改以 NF-CN 静态 TTF 为基底。
+
+    上游这两种格式只从纯拉丁 base TTF 转换,不含 Nerd 图标与中文。
+    清空后重新从 output_cn 生成;必须在 archive 之前调用,且只在
+    hinted 那一轮执行,避免 unhinted 轮把已归档内容覆盖。
+    """
+    if not build_option.is_cn_built:
+        return
+    for d in (build_option.output_otf, build_option.output_woff2):
+        shutil.rmtree(d, ignore_errors=True)
+        makedirs(d, exist_ok=True)
+    for f in listdir(build_option.output_cn):
+        if not f.endswith(".ttf"):
+            continue
+        src = joinPaths(build_option.output_cn, f)
+        run(f"ftcli converter ttf2otf {src} -out {build_option.output_otf}")
+        run(f"ftcli converter ft2wf {src} -out {build_option.output_woff2} -f woff2")
+
+
+# Now, refactor the main function to use these
+def main(''',
+    ),
+    (
+        """        for f in listdir(build_option.output_dir):
+            if f == archive_dir_name or f.endswith(".json"):
+                continue
+""",
+        """        for f in listdir(build_option.output_dir):
+            if f == archive_dir_name or f.endswith(".json"):
+                continue
+            if f in ("TTF", "TTF-AutoHint", "NF", "CN", "Variable"):
+                continue
+""",
+    ),
 ]
 
 
@@ -103,15 +155,17 @@ def main() -> int:
         text = path.read_text()
         changed = 0
         for old, new in pairs:
-            if old in text:
-                text = text.replace(old, new, 1)
-                changed += 1
-            elif new not in text:
+            # 先查新文本:插入型替换(新内容包含旧内容)也要能判幂等
+            if new in text:
+                continue
+            if old not in text:
                 print(
                     f"错误: {path} 里找不到待替换片段,上游可能已改动:\n{old[:80]}",
                     file=sys.stderr,
                 )
                 return 1
+            text = text.replace(old, new, 1)
+            changed += 1
         if changed:
             path.write_text(text)
             print(f"已应用 {changed} 处命名补丁: {path}")

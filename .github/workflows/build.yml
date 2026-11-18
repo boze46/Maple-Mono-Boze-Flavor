@@ -146,16 +146,16 @@ jobs:
 
           row() {
             p="$1"; label="$2"
-            echo "| ${label} | $(dl "MapleBoze${p}-Variable.zip") | $(dl2 "MapleBoze${p}-TTF-AutoHint.zip" "TTF-AutoHint" "MapleBoze${p}-TTF.zip" "TTF") | $(dl "MapleBoze${p}-OTF.zip") | $(dl "MapleBoze${p}-Woff2.zip") | $(dl2 "MapleBoze${p}-NF.zip" "下载" "MapleBoze${p}-NF-unhinted.zip" "unhinted") | $(dl2 "MapleBoze${p}-NF-CN.zip" "下载" "MapleBoze${p}-NF-CN-unhinted.zip" "unhinted") |"
+            echo "| ${label} | $(dl2 "MapleBoze${p}-NF-CN.zip" "下载" "MapleBoze${p}-NF-CN-unhinted.zip" "unhinted") | $(dl "MapleBoze${p}-OTF.zip") | $(dl "MapleBoze${p}-Woff2.zip") |"
           }
 
           {
             echo "### 下载"
             echo ""
-            echo "主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；Variable / OTF / WOFF2 不含 hint，仅一个链接。NR = 拉丁 550 / 中文 1100，SL = 拉丁 500 / 中文 1000（Sarasa Term SC 同款 2:1 字距）。NF / NF-CN 图标全部单宽（mono），hinted 与 unhinted 字体族名相同，同一台机器不要安装同宽度的两套。"
+            echo "全部产物以 NF-CN（Nerd 图标 + 中文）为基底，图标单宽（mono）；不发布可变字体与纯拉丁版本。TTF 主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；OTF / WOFF2 只发布 hinted 一轮。NR = 拉丁 550 / 中文 1100，SL = 拉丁 500 / 中文 1000（Sarasa Term SC 同款 2:1 字距）。"
             echo ""
-            echo "| 宽度 | Variable | TTF | OTF | WOFF2 | NF | NF-CN |"
-            echo "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |"
+            echo "| 宽度 | TTF（NF-CN） | OTF | WOFF2 |"
+            echo "| :--- | :---: | :---: | :---: |"
             row NR "NR（550/1100）"
             row SL "SL（500/1000）"
             echo ""
