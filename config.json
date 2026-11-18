@@ -1,6 +1,6 @@
 {
   "$schema": "./source/schema.json",
-  "family_name": "Maple Mono Boze Flavor",
+  "family_name": "Maple Boze",
   "use_hinted": true,
   "pool_size": 4,
   "enable_ligature": true,
