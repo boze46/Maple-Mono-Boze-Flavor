@@ -18,8 +18,9 @@
    NameID2 存字重、不写 NameID16/17。
 
 3. 文件名与 PostScript 名:去掉 `NFMono`/`NFMono-CN` 前缀,产物叫
-   `MapleBozeNR-Regular.ttf`,PS 名为 `MapleBozeNR-Regular`。zip 包名
-   仍保留变体区分(同一 Release 要放 TTF/NF/NF-CN 多个包,重名会发布失败)。
+   `MapleBozeNR-Regular.ttf`,PS 名为 `MapleBozeNR-Regular`。只归档
+   NF-CN 静态 TTF;OTF 转 CFF 对部分中文字重会静默失败,WOFF2 单字重
+   压缩约 80 秒,两者都不发布。
 
 上游代码变动导致任一处匹配失败时直接报错,避免静默退化成旧命名。
 """
@@ -86,46 +87,10 @@ REPLACEMENTS = [
         'postscript_name = f"{font_config.family_name_compact}-{build_option.cn_suffix_compact}-{style_compact_cn}"',
         'postscript_name = f"{font_config.family_name_compact}-{style_compact_cn}"',
     ),
-    # ⑤ 只发布 NF-CN 基底:OTF / WOFF2 改从 NF-CN 静态 TTF 转换,
-    #    归档时跳过纯拉丁 TTF / NF / Variable / CN 目录。
-    (
-        """    # Build variants
-    build_nerd_fonts(font_config, build_option, target_styles)
-    build_chinese_fonts(font_config, build_option, target_styles)
-""",
-        """    # Build variants
-    build_nerd_fonts(font_config, build_option, target_styles)
-    build_chinese_fonts(font_config, build_option, target_styles)
-    if not should_use_cache:
-        convert_cn_formats(build_option)
-""",
-    ),
-    (
-        """# Now, refactor the main function to use these
-def main(""",
-        '''def convert_cn_formats(build_option: BuildOption):
-    """BozeFlavor: OTF / WOFF2 改以 NF-CN 静态 TTF 为基底。
-
-    上游这两种格式只从纯拉丁 base TTF 转换,不含 Nerd 图标与中文。
-    清空后重新从 output_cn 生成;必须在 archive 之前调用,且只在
-    hinted 那一轮执行,避免 unhinted 轮把已归档内容覆盖。
-    """
-    if not build_option.is_cn_built:
-        return
-    for d in (build_option.output_otf, build_option.output_woff2):
-        shutil.rmtree(d, ignore_errors=True)
-        makedirs(d, exist_ok=True)
-    for f in listdir(build_option.output_cn):
-        if not f.endswith(".ttf"):
-            continue
-        src = joinPaths(build_option.output_cn, f)
-        run(f"ftcli converter ttf2otf {src} -out {build_option.output_otf}")
-        run(f"ftcli converter ft2wf {src} -out {build_option.output_woff2} -f woff2")
-
-
-# Now, refactor the main function to use these
-def main(''',
-    ),
+    # ⑤ 只发布 NF-CN 的 TTF:归档时跳过纯拉丁 TTF / TTF-AutoHint /
+    #    NF / CN / Variable / OTF / Woff2 目录。
+    #    OTF 转换对部分中文字重会报 CorrectContoursError 但退出码为 0,
+    #    产出残缺且不报错;WOFF2 单字重压缩约 80 秒。两者都不发布。
     (
         """        for f in listdir(build_option.output_dir):
             if f == archive_dir_name or f.endswith(".json"):
@@ -134,7 +99,15 @@ def main(''',
         """        for f in listdir(build_option.output_dir):
             if f == archive_dir_name or f.endswith(".json"):
                 continue
-            if f in ("TTF", "TTF-AutoHint", "NF", "CN", "Variable"):
+            if f in (
+                "TTF",
+                "TTF-AutoHint",
+                "NF",
+                "CN",
+                "Variable",
+                "OTF",
+                "Woff2",
+            ):
                 continue
 """,
     ),

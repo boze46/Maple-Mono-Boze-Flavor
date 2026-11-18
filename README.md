@@ -6,12 +6,12 @@
 
 下载表格与 Release notes 中的同款，此处使用 `latest/download` 固定直链——zip 文件名在各次 Release 之间保持不变（nix 用 `fetchurl` 拉取，升级 = 改一次 hash）。
 
-全部产物以 NF-CN（Nerd 图标 + 中文）为基底，图标单宽（mono）；不发布可变字体与纯拉丁版本。TTF 主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；OTF / WOFF2 只发布 hinted 一轮。同一宽度不要同时安装多套（族名相同）。
+只发布 NF-CN 静态 TTF（Nerd 图标 + 中文，图标单宽 mono）。主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）。
 
-| 宽度 | TTF（NF-CN） | OTF | WOFF2 |
-| :--- | :---: | :---: | :---: |
-| NR（550/1100） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN-unhinted.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-OTF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-Woff2.zip) |
-| SL（500/1000） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN-unhinted.zip)) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-OTF.zip) | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-Woff2.zip) |
+| 宽度 | TTF（NF-CN） |
+| :--- | :---: |
+| NR（550/1100） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN-unhinted.zip)) |
+| SL（500/1000） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN-unhinted.zip)) |
 
 ## 基础信息
 
@@ -133,7 +133,7 @@
 ## 项目原理
 
 - 仓库不含字体源码与产物，只有 `config.json` 和 [.github/workflows/build.yml](./.github/workflows/build.yml)。
-- Actions 手动触发后：checkout 上游 → 跑 `scripts/patch-family-names.py` 打命名补丁 → 用本仓库 `config.json` 覆盖上游的 → matrix 并行构建 `narrow` / `slim` 两个宽度；每个宽度先全量构建 hinted 版（1080p），再把 `use_hinted` / `cn.use_hinted` 切为 `false`，用 `--archive --cache` 复用基字、只重打 NF-CN 的 `-unhinted` 变体（2K）。只归档 NF-CN 基底：TTF 即 NF-CN 静态版，OTF / WOFF2 从 NF-CN 静态 TTF 转换；纯拉丁 TTF / TTF-AutoHint / NF / Variable 只作为中间产物，不发布。
+- Actions 手动触发后：checkout 上游 → 跑 `scripts/patch-family-names.py` 打命名补丁 → 用本仓库 `config.json` 覆盖上游的 → matrix 并行构建 `narrow` / `slim` 两个宽度；每个宽度先全量构建 hinted 版（1080p），再把 `use_hinted` / `cn.use_hinted` 切为 `false`，用 `--archive --cache` 复用基字、只重打 NF-CN 的 `-unhinted` 变体（2K）。只归档 NF-CN 静态 TTF；纯拉丁 TTF / TTF-AutoHint / NF / Variable / OTF / WOFF2 只作为中间产物，不发布。
 - 改配置：编辑 `config.json`（playground 导出后需同步；注意 v8 线导出为 `cjk` 结构，与 v7 不兼容）→ 提交 → 重跑 workflow；上游升级同理，改 `upstream_ref`。
 - 本地构建：clone 上游 v7 分支，先跑 `python scripts/patch-family-names.py <上游目录>` 打命名补丁，覆盖 `config.json`，再 `pip install -r requirements.txt && python build.py --archive`。
 

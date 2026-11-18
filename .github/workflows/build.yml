@@ -146,16 +146,16 @@ jobs:
 
           row() {
             p="$1"; label="$2"
-            echo "| ${label} | $(dl2 "MapleBoze${p}-NF-CN.zip" "下载" "MapleBoze${p}-NF-CN-unhinted.zip" "unhinted") | $(dl "MapleBoze${p}-OTF.zip") | $(dl "MapleBoze${p}-Woff2.zip") |"
+            echo "| ${label} | $(dl2 "MapleBoze${p}-NF-CN.zip" "下载" "MapleBoze${p}-NF-CN-unhinted.zip" "unhinted") |"
           }
 
           {
             echo "### 下载"
             echo ""
-            echo "全部产物以 NF-CN（Nerd 图标 + 中文）为基底，图标单宽（mono）；不发布可变字体与纯拉丁版本。TTF 主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）；OTF / WOFF2 只发布 hinted 一轮。NR = 拉丁 550 / 中文 1100，SL = 拉丁 500 / 中文 1000（Sarasa Term SC 同款 2:1 字距）。"
+            echo "只发布 NF-CN 静态 TTF（Nerd 图标 + 中文，图标单宽 mono）。主链接为 hinted（≤1080p），括号内为 unhinted（≥2K）。NR = 拉丁 550 / 中文 1100，SL = 拉丁 500 / 中文 1000（Sarasa Term SC 同款 2:1 字距）。"
             echo ""
-            echo "| 宽度 | TTF（NF-CN） | OTF | WOFF2 |"
-            echo "| :--- | :---: | :---: | :---: |"
+            echo "| 宽度 | TTF（NF-CN） |"
+            echo "| :--- | :---: |"
             row NR "NR（550/1100）"
             row SL "SL（500/1000）"
             echo ""
