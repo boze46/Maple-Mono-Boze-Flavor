@@ -6,7 +6,7 @@
 1. family 命名:上游把技术后缀拼进 NameID1 —— 宽度(NR/SL,来自
    `_update_family_names`)、Nerd Font(`NFMono`)、中文字集(`CN`)。
    加上 config.json 里的 `Flavor`,最终是
-   "Maple Mono Boze Flavor NR NFMono CN"。本脚本去掉 NF/CN 两段,
+   "Maple Boze NR NFMono CN"。本脚本去掉 NF/CN 两段,
    配合 config.json 的 `family_name: "Maple Boze"` 得到
    "Maple Boze NR" / "Maple Boze SL"。宽度后缀必须保留:workflow
    的 matrix 同时构建两套,zip 名 = family_name_compact + 目录名,

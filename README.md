@@ -1,6 +1,6 @@
-# Maple Mono Boze Flavor
+# MapleBoze
 
-[Maple Mono](https://github.com/subframe7536/maple-font) v7 的个人定制构建。一套配置产出四套字体：宽度（NR / SL）× 提示（hinted / unhinted）。仓库只存放配置与 CI workflow，字体在 GitHub Actions 构建并发布到 [Releases](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases)。
+[Maple Mono](https://github.com/subframe7536/maple-font) v7 的个人定制构建。一套配置产出四套字体：宽度（NR / SL）× 提示（hinted / unhinted）。仓库只存放配置与 CI workflow，字体在 GitHub Actions 构建并发布到 [Releases](https://github.com/boze46/MapleBoze/releases)。
 
 ## 产出
 
@@ -10,8 +10,8 @@
 
 | 宽度 | TTF（NF-CN） |
 | :--- | :---: |
-| NR（550/1100） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeNR-NF-CN-unhinted.zip)) |
-| SL（500/1000） | [📦 下载](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/Maple-Mono-Boze-Flavor/releases/latest/download/MapleBozeSL-NF-CN-unhinted.zip)) |
+| NR（550/1100） | [📦 下载](https://github.com/boze46/MapleBoze/releases/latest/download/MapleBozeNR-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/MapleBoze/releases/latest/download/MapleBozeNR-NF-CN-unhinted.zip)) |
+| SL（500/1000） | [📦 下载](https://github.com/boze46/MapleBoze/releases/latest/download/MapleBozeSL-NF-CN.zip) ([📦 unhinted](https://github.com/boze46/MapleBoze/releases/latest/download/MapleBozeSL-NF-CN-unhinted.zip)) |
 
 ## 基础信息
 
